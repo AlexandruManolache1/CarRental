@@ -1,14 +1,31 @@
 package ro.jademy.carrental;
 
+import javax.sound.midi.Soundbank;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class Shop {
     // Q: what fields and methods should this class contain?
 
+    List<Salesman> salesmen = new ArrayList<>();
+
+    public Shop() {
+        Salesman salesman1 = new Salesman();
+        
+
+    }
+
     public boolean login(String username, String password) {
 
-        // TODO: implement a basic user login
+        if (!(username.equals(salesman.getCorrectUser()) && password.equals(salesman.getCorrectPassword()))) {
+            System.out.println("Incorrect credentials");
+            login(username,password);
+        }
 
         return false;
     }
+
 
     public void showMenu() {
 
@@ -45,5 +62,10 @@ public class Shop {
         //       weekdays and national holidays in which the discount should be smaller
 
         // Q: what should be the return type of this method?
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 }
