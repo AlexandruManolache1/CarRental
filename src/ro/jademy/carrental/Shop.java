@@ -8,22 +8,47 @@ import java.util.Scanner;
 public class Shop {
     // Q: what fields and methods should this class contain?
 
-    List<Salesman> salesmen = new ArrayList<>();
+
+    private ArrayList<Salesman> salesmen = new ArrayList<>();
 
     public Shop() {
-        Salesman salesman1 = new Salesman();
-        
-
+        Salesman salesman1 = new Salesman("alex", "m", "alexm", "1234");
+        Salesman salesman2 = new Salesman("gigi", "b", "gigib", "1234");
+        Salesman salesman3 = new Salesman("dica", "n", "dican", "1234");
+        salesmen.add(salesman1);
+        salesmen.add(salesman2);
+        salesmen.add(salesman3);
     }
+
 
     public boolean login(String username, String password) {
 
-        if (!(username.equals(salesman.getCorrectUser()) && password.equals(salesman.getCorrectPassword()))) {
-            System.out.println("Incorrect credentials");
-            login(username,password);
+        for (Salesman salesman : salesmen) {
+            if (username.equals(salesman.getUser()) && password.equals(salesman.getPassword())) {
+                return true;
+            }
         }
-
+        System.out.println("Incorrect credentials");
         return false;
+    }
+
+    public void loginScreen() {
+
+        boolean succesLogin;
+        do
+
+        {
+            Scanner scan = new Scanner(System.in);
+            System.out.println("Welcome.    Please log in\n");
+            System.out.println("User: ");
+            String username = scan.next();
+            System.out.println("Password: ");
+            String password = scan.next();
+            succesLogin = login(username, password);
+            if (login(username, password)) {
+                showMenu();
+            }
+        } while (!succesLogin);
     }
 
 
@@ -53,6 +78,9 @@ public class Shop {
         System.out.println("4. Back to previous menu");
 
     }
+
+
+
 
     public void calculatePrice(int numberOfDays) {
         // TODO: apply a discount to the base price of a car based on the number of rental days
