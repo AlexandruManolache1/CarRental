@@ -1,5 +1,10 @@
 package ro.jademy.carrental;
 
+import ro.jademy.carrental.Car.BMW;
+import ro.jademy.carrental.Car.Car;
+import ro.jademy.carrental.Car.Engine;
+import ro.jademy.carrental.Car.Mercedes;
+
 import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +15,8 @@ public class Shop {
 
 
     private ArrayList<Salesman> salesmen = new ArrayList<>();
+    private ArrayList<Car> Cars = new ArrayList<>();
+    private ArrayList<Car> filteredCars = new ArrayList<>();
 
     public Shop() {
         Salesman salesman1 = new Salesman("alex", "m", "alexm", "1234");
@@ -18,6 +25,14 @@ public class Shop {
         salesmen.add(salesman1);
         salesmen.add(salesman2);
         salesmen.add(salesman3);
+
+        Cars.add(
+            new BMW("BMW", "S3", 2015, "Saloon", 5, "Red", "Aut", "50K", "60K", new Engine(190, 110, 5, "Petrol"),
+                true, true));
+        Cars.add(new Mercedes("Mercedes", "E", 2015, "Coupe", 3, "Black", "Manual", "60K", "70K",
+            new Engine(200, 150, 9, "Diesel"), true, false));
+        Cars.add(new Mercedes("Mercedes", "S", 2016, "Saloon", 3, "Black", "Aut", "80K", "90K",
+            new Engine(250, 200, 10, "Petrol"), true, true));
     }
 
 
@@ -54,6 +69,8 @@ public class Shop {
 
     public void showMenu() {
 
+        Scanner sc = new Scanner(System.in);
+
         System.out.println(" -----------------------------------------------");
         System.out.println("|    Welcome to the Jademy Car Rental Service   |");
         System.out.println(" -----------------------------------------------");
@@ -63,23 +80,109 @@ public class Shop {
         System.out.println("2. List available cars");
         System.out.println("3. List rented cars");
         System.out.println("4. Check income");
+        System.out.println("5. Detailed Search");
         System.out.println("5. Logout");
         System.out.println("6. Exit");
+
+        int choiceOption = sc.nextInt();
+        switch (choiceOption) {
+            case 1: {
+                showAllCars();
+                break;
+            }
+            case 2: {
+                showAvailableCars();
+                break;
+            }
+            case 3: {
+                showRentedCars();
+                break;
+            }
+
+            case 4: {
+                checkIncome();
+                break;
+            }
+            case 5: {
+                showListMenuOptions();
+                break;
+            }
+        }
     }
 
+
     public void showListMenuOptions() {
+
+        Scanner sc = new Scanner(System.in);
 
         System.out.println("Select an action from below:");
         System.out.println("1. Filter by make");
         System.out.println("2. Filter by model");
         System.out.println("3. Filter by budget");
         // TODO: add additional filter methods based on car specs
-
         System.out.println("4. Back to previous menu");
+
+        int choiceOption = sc.nextInt();
+
+        switch (choiceOption) {
+            case 1: {
+                showCarsbyMake();
+                break;
+            }
+            case 2: {
+
+                break;
+            }
+            case 3: {
+                showRentedCars();                break;
+            }
+
+        }
+
 
     }
 
+    public void showAllCars() {
+        for (Car car : Cars) {
+            System.out.println(car.toString());
+        }
+    }
 
+    public void showCarsbyMake() {
+
+        System.out.println("Enter the make");
+        Scanner sc = new Scanner(System.in);
+        String searchMake = sc.next();
+        for (Car car : Cars) {
+            if (car.make.equalsIgnoreCase(searchMake)) {
+               filteredCars.add(car);
+            }
+        }
+        System.out.println(filteredCars.toString());
+    }
+
+
+    public void showAvailableCars() {
+        for (Car car : Cars) {
+            if (!car.isRented()) {
+                System.out.println(car.toString());
+            }
+        }
+    }
+
+
+    public void showRentedCars() {
+        for (Car car : Cars) {
+            if (car.isRented()) {
+                System.out.println(car.toString());
+            }
+        }
+
+    }
+
+    public void checkIncome() {
+
+    }
 
 
     public void calculatePrice(int numberOfDays) {

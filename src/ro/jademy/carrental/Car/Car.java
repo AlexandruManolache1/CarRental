@@ -1,6 +1,4 @@
-package ro.jademy.carrental;
-
-import java.math.BigDecimal;
+package ro.jademy.carrental.Car;
 
 public abstract class Car {
 
@@ -9,12 +7,12 @@ public abstract class Car {
     public String model;
     public Integer year;
     private String carType;
-    private String fuelType;
     private Integer doorNumber;
     private String color;
     private String transmissionType;
     private String basePrice;
     private  String priceNew;
+    private boolean rented;
 
     // Q: how can we better represent the car type?
     //  public enum carType {
@@ -46,19 +44,19 @@ public abstract class Car {
     // Q: how can we better protect the car data?
 
 
-    public Car(String make, String model, Integer year, String carType, String fuelType, Integer doorNumber,
-        String color, String transmissionType, String basePrice, String priceNew, Engine engine) {
+    public Car(String make, String model, Integer year, String carType, Integer doorNumber,
+        String color, String transmissionType, String basePrice, String priceNew, Engine engine,boolean rented) {
         this.make = make;
         this.model = model;
         this.year = year;
         this.carType = carType;
-        this.fuelType = fuelType;
         this.doorNumber = doorNumber;
         this.color = color;
         this.transmissionType = transmissionType;
         this.basePrice = basePrice;
         this.priceNew = priceNew;
         this.engine = engine;
+        this.rented = rented;
     }
 
     public String getMake() {
@@ -77,9 +75,6 @@ public abstract class Car {
         return carType;
     }
 
-    public String getFuelType() {
-        return fuelType;
-    }
 
     public Integer getDoorNumber() {
         return doorNumber;
@@ -103,5 +98,25 @@ public abstract class Car {
 
     public String getPriceNew() {
         return priceNew;
+    }
+
+    public boolean isRented() {
+        return rented;
+    }
+
+    @Override
+    public String toString() {
+        return
+            "make='" + make + '\'' +
+            ", model='" + model + '\'' +
+            ", year=" + year +
+            ", carType='" + carType + '\'' +
+            ", doorNumber=" + doorNumber +
+            ", color='" + color + '\'' +
+            ", transmissionType='" + transmissionType + '\'' +
+            ", basePrice='" + basePrice + '\'' +
+            ", priceNew='" + priceNew + '\'' +
+            ", engine=" + engine +
+            '}';
     }
 }
