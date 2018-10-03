@@ -5,9 +5,8 @@ import ro.jademy.carrental.Car.Car;
 import ro.jademy.carrental.Car.Engine;
 import ro.jademy.carrental.Car.Mercedes;
 
-import javax.sound.midi.Soundbank;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Shop {
@@ -15,8 +14,10 @@ public class Shop {
 
 
     private ArrayList<Salesman> salesmen = new ArrayList<>();
-    private ArrayList<Car> Cars = new ArrayList<>();
+    private ArrayList<Car> cars = new ArrayList<>();
     private ArrayList<Car> filteredCars = new ArrayList<>();
+    Scanner sc = new Scanner(System.in);
+    private ArrayList<Car> choosenCars = new ArrayList<>();
 
     public Shop() {
         Salesman salesman1 = new Salesman("alex", "m", "alexm", "1234");
@@ -26,13 +27,16 @@ public class Shop {
         salesmen.add(salesman2);
         salesmen.add(salesman3);
 
-        Cars.add(
-            new BMW("BMW", "S3", 2015, "Saloon", 5, "Red", "Aut", "50K", "60K", new Engine(190, 110, 5, "Petrol"),
-                true, true));
-        Cars.add(new Mercedes("Mercedes", "E", 2015, "Coupe", 3, "Black", "Manual", "60K", "70K",
+        cars.add(
+            new BMW("BMW", "S3", 2015, "Saloon", 5, "Red", "Aut", new BigDecimal(50), new BigDecimal(60000),
+                new Engine(190, 110, 5, "Petrol"),
+                true, false));
+        cars.add(new Mercedes("Mercedes", "E", 2015, "Coupe", 3, "Black", "Manual", new BigDecimal(60),
+            new BigDecimal(70000),
             new Engine(200, 150, 9, "Diesel"), true, false));
-        Cars.add(new Mercedes("Mercedes", "S", 2016, "Saloon", 3, "Black", "Aut", "80K", "90K",
-            new Engine(250, 200, 10, "Petrol"), true, true));
+        cars.add(
+            new Mercedes("Mercedes", "S", 2016, "Saloon", 3, "Black", "Aut", new BigDecimal(80), new BigDecimal(90000),
+                new Engine(250, 200, 10, "Petrol"), true, true));
     }
 
 
@@ -53,12 +57,12 @@ public class Shop {
         do
 
         {
-            Scanner scan = new Scanner(System.in);
+
             System.out.println("Welcome.    Please log in\n");
             System.out.println("User: ");
-            String username = scan.next();
+            String username = sc.next();
             System.out.println("Password: ");
-            String password = scan.next();
+            String password = sc.next();
             succesLogin = login(username, password);
             if (login(username, password)) {
                 showMenu();
@@ -68,8 +72,6 @@ public class Shop {
 
 
     public void showMenu() {
-
-        Scanner sc = new Scanner(System.in);
 
         System.out.println(" -----------------------------------------------");
         System.out.println("|    Welcome to the Jademy Car Rental Service   |");
@@ -113,8 +115,6 @@ public class Shop {
 
     public void showListMenuOptions() {
 
-        Scanner sc = new Scanner(System.in);
-
         System.out.println("Select an action from below:");
         System.out.println("1. Filter by make");
         System.out.println("2. Filter by model");
@@ -130,54 +130,88 @@ public class Shop {
                 break;
             }
             case 2: {
-
+                showCarsbyModel();
                 break;
             }
             case 3: {
-                showRentedCars();                break;
+                showCarsbyBudget();
+                break;
             }
-
+            case 4: {
+                showMenu();
+                break;
+            }
         }
 
 
     }
 
     public void showAllCars() {
-        for (Car car : Cars) {
-            System.out.println(car.toString());
-        }
+        showCars(cars);
+        chooseCar();
     }
 
     public void showCarsbyMake() {
 
         System.out.println("Enter the make");
-        Scanner sc = new Scanner(System.in);
         String searchMake = sc.next();
-        for (Car car : Cars) {
+        for (Car car : cars) {
             if (car.make.equalsIgnoreCase(searchMake)) {
-               filteredCars.add(car);
+                filteredCars.add(car);
             }
         }
-        System.out.println(filteredCars.toString());
+        showCars(filteredCars);
+        chooseCar();
     }
 
 
-    public void showAvailableCars() {
-        for (Car car : Cars) {
-            if (!car.isRented()) {
-                System.out.println(car.toString());
+    public void showCarsbyModel() {
+
+        System.out.println("Enter the model");
+        String searchModel = sc.next();
+        for (Car car : cars) {
+            if (car.getModel().equalsIgnoreCase(searchModel)) {
+                filteredCars.add(car);
             }
         }
+        showCars(filteredCars);
+        chooseCar();
+    }
+
+
+    public void showCarsbyBudget() {
+
+        System.out.println("enter maximmum budget available");
+        Integer budget = sc.nextInt();
+        for (Car car : cars) {
+            if (BigDecimal.valueOf(budget).compareTo(car.getBasePrice()) > 0) {
+
+                filteredCars.add(car);
+            }
+        }
+        showCars(filteredCars);
+        chooseCar();
+    }
+
+    public void showAvailableCars() {
+        for (Car car : cars) {
+            if (!car.getCarState().isRented()) {
+                filteredCars.add(car);
+            }
+        }
+        showCars(filteredCars);
+        chooseCar();
     }
 
 
     public void showRentedCars() {
-        for (Car car : Cars) {
-            if (car.isRented()) {
-                System.out.println(car.toString());
+        for (Car car : cars) {
+            if (car.getCarState().isRented()) {
+                filteredCars.add(car);
             }
         }
 
+        showCars(filteredCars);
     }
 
     public void checkIncome() {
@@ -199,4 +233,20 @@ public class Shop {
     public boolean equals(Object obj) {
         return super.equals(obj);
     }
+
+    public void showCars(ArrayList<Car> cars) {
+        for (Car car : cars) {
+            System.out.println((cars.indexOf(car) + 1) + " " + car.showcardetails());
+        }
+    }
+
+    public void chooseCar() {
+        System.out.println("If you want to rent please type the car number ");
+        Integer carOption = sc.nextInt();
+        Car car = cars.get(carOption - 1);
+        car.getCarState().setRented(true);
+        choosenCars.add(car);
+    }
+
+
 }

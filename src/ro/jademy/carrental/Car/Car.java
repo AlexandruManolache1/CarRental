@@ -1,5 +1,9 @@
 package ro.jademy.carrental.Car;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+
 public abstract class Car {
 
     // Q: how can we better represent the car make?
@@ -10,9 +14,9 @@ public abstract class Car {
     private Integer doorNumber;
     private String color;
     private String transmissionType;
-    private String basePrice;
-    private  String priceNew;
-    private boolean rented;
+    private BigDecimal basePrice;
+    private BigDecimal priceNew;
+    private CarState carState = new CarState();
 
     // Q: how can we better represent the car type?
     //  public enum carType {
@@ -45,7 +49,7 @@ public abstract class Car {
 
 
     public Car(String make, String model, Integer year, String carType, Integer doorNumber,
-        String color, String transmissionType, String basePrice, String priceNew, Engine engine,boolean rented) {
+        String color, String transmissionType, BigDecimal basePrice, BigDecimal priceNew, Engine engine) {
         this.make = make;
         this.model = model;
         this.year = year;
@@ -56,7 +60,14 @@ public abstract class Car {
         this.basePrice = basePrice;
         this.priceNew = priceNew;
         this.engine = engine;
-        this.rented = rented;
+    }
+
+    public Car(String make, String model, Integer year, String carType, Integer doorNumber, String color,
+        String transmissionType, BigDecimal basePrice, BigDecimal priceNew, Engine engine, boolean isRented) {
+
+        this(make, model, year, carType, doorNumber, color, transmissionType, basePrice, priceNew, engine);
+        this.carState.setRented(isRented);
+
     }
 
     public String getMake() {
@@ -88,7 +99,7 @@ public abstract class Car {
         return transmissionType;
     }
 
-    public String getBasePrice() {
+    public BigDecimal getBasePrice() {
         return basePrice;
     }
 
@@ -96,27 +107,28 @@ public abstract class Car {
         return engine;
     }
 
-    public String getPriceNew() {
+    public BigDecimal getPriceNew() {
         return priceNew;
     }
 
-    public boolean isRented() {
-        return rented;
+    public CarState getCarState() {
+        return carState;
     }
 
-    @Override
-    public String toString() {
+
+    public String showcardetails() {
         return
             "make='" + make + '\'' +
-            ", model='" + model + '\'' +
-            ", year=" + year +
-            ", carType='" + carType + '\'' +
-            ", doorNumber=" + doorNumber +
-            ", color='" + color + '\'' +
-            ", transmissionType='" + transmissionType + '\'' +
-            ", basePrice='" + basePrice + '\'' +
-            ", priceNew='" + priceNew + '\'' +
-            ", engine=" + engine +
-            '}';
+                ", model='" + model + '\'' +
+                ", year=" + year +
+                ", carType='" + carType + '\'' +
+                ", doorNumber=" + doorNumber +
+                ", color='" + color + '\'' +
+                ", transmissionType='" + transmissionType + '\'' +
+                ", basePrice='" + basePrice + '\'' +
+                ", priceNew='" + priceNew + '\'' +
+                ", engine={fuelType " + engine.fuelType + ", consumption" + engine.consumption + " ,horsePower = "
+                + engine.horsePower + " kwPower " + engine.kwPower +
+                '}';
     }
 }
