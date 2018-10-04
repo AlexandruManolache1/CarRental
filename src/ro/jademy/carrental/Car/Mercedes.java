@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * Created by alexandrumanolache on 01/10/2018.
  */
-public class Mercedes extends  Car{
+public class Mercedes extends Car {
 
     private boolean leather;
 
@@ -16,8 +16,9 @@ public class Mercedes extends  Car{
     }
 
     public Mercedes(String make, String model, Integer year, String carType, Integer doorNumber, String color,
-        String transmissionType, BigDecimal basePrice, BigDecimal priceNew, Engine engine, boolean leather,boolean isRented) {
-        super(make, model, year, carType, doorNumber, color, transmissionType, basePrice, priceNew, engine,isRented);
+        String transmissionType, BigDecimal basePrice, BigDecimal priceNew, Engine engine, boolean leather,
+        boolean isRented) {
+        super(make, model, year, carType, doorNumber, color, transmissionType, basePrice, priceNew, engine, isRented);
         this.leather = leather;
     }
 

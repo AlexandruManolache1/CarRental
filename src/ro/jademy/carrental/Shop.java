@@ -81,8 +81,7 @@ public class Shop {
         System.out.println("1. List all cars");
         System.out.println("2. List available cars");
         System.out.println("3. List rented cars");
-        System.out.println("4. Check income");
-        System.out.println("5. Detailed Search");
+        System.out.println("4. Detailed Search");
         System.out.println("5. Logout");
         System.out.println("6. Exit");
 
@@ -90,22 +89,20 @@ public class Shop {
         switch (choiceOption) {
             case 1: {
                 showAllCars();
+                showMenu();
                 break;
             }
             case 2: {
                 showAvailableCars();
+                showMenu();
                 break;
             }
             case 3: {
                 showRentedCars();
+                showMenu();
                 break;
             }
-
             case 4: {
-                checkIncome();
-                break;
-            }
-            case 5: {
                 showListMenuOptions();
                 break;
             }
@@ -127,14 +124,17 @@ public class Shop {
         switch (choiceOption) {
             case 1: {
                 showCarsbyMake();
+                showListMenuOptions();
                 break;
             }
             case 2: {
                 showCarsbyModel();
+                showListMenuOptions();
                 break;
             }
             case 3: {
                 showCarsbyBudget();
+                showListMenuOptions();
                 break;
             }
             case 4: {
@@ -153,6 +153,7 @@ public class Shop {
 
     public void showCarsbyMake() {
 
+        filteredCars.clear();
         System.out.println("Enter the make");
         String searchMake = sc.next();
         for (Car car : cars) {
@@ -167,6 +168,7 @@ public class Shop {
 
     public void showCarsbyModel() {
 
+        filteredCars.clear();
         System.out.println("Enter the model");
         String searchModel = sc.next();
         for (Car car : cars) {
@@ -181,6 +183,7 @@ public class Shop {
 
     public void showCarsbyBudget() {
 
+        filteredCars.clear();
         System.out.println("enter maximmum budget available");
         Integer budget = sc.nextInt();
         for (Car car : cars) {
@@ -194,6 +197,8 @@ public class Shop {
     }
 
     public void showAvailableCars() {
+
+        filteredCars.clear();
         for (Car car : cars) {
             if (!car.getCarState().isRented()) {
                 filteredCars.add(car);
@@ -205,6 +210,8 @@ public class Shop {
 
 
     public void showRentedCars() {
+
+        filteredCars.clear();
         for (Car car : cars) {
             if (car.getCarState().isRented()) {
                 filteredCars.add(car);
@@ -212,10 +219,6 @@ public class Shop {
         }
 
         showCars(filteredCars);
-    }
-
-    public void checkIncome() {
-
     }
 
 
@@ -241,12 +244,15 @@ public class Shop {
     }
 
     public void chooseCar() {
-        System.out.println("If you want to rent please type the car number ");
+        System.out.println("If you want to rent please type the car number.\n If no, please type 0 to return to menu");
         Integer carOption = sc.nextInt();
-        Car car = cars.get(carOption - 1);
-        car.getCarState().setRented(true);
-        choosenCars.add(car);
+        if (carOption > 0) {
+            Car car = cars.get(carOption - 1);
+            car.getCarState().setRented(true);
+            choosenCars.add(car);
+        }
+        if (carOption == 0) {
+            return;
+        }
     }
-
-
 }

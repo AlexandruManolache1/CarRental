@@ -11,7 +11,7 @@ public class Engine {
     String fuelType;
 
 
-    public Engine(Integer horsePower, Integer kwPower, Integer consumption,String fuelType) {
+    public Engine(Integer horsePower, Integer kwPower, Integer consumption, String fuelType) {
         this.horsePower = horsePower;
         this.kwPower = kwPower;
         this.consumption = consumption;
