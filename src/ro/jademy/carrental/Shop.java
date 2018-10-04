@@ -239,17 +239,20 @@ public class Shop {
 
     public void showCars(ArrayList<Car> cars) {
         for (Car car : cars) {
-            System.out.println((cars.indexOf(car) + 1) + " " + car.showcardetails());
+            System.out.println((cars.indexOf(car) + 1) + " \n" + car.showcardetails());
         }
     }
 
     public void chooseCar() {
-        System.out.println("If you want to rent please type the car number.\n If no, please type 0 to return to menu");
+        System.out.println("\nIf you want to rent please type the car number.\nIf no, please type 0 to return to menu");
         Integer carOption = sc.nextInt();
         if (carOption > 0) {
             Car car = cars.get(carOption - 1);
             car.getCarState().setRented(true);
             choosenCars.add(car);
+            System.out.println("Congratulations, you rented ");
+            showCars(choosenCars);
+            loginScreen();
         }
         if (carOption == 0) {
             return;

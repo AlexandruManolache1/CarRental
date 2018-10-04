@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
+import javax.swing.*;
+
+
 public abstract class Car {
 
     // Q: how can we better represent the car make?
@@ -118,17 +121,9 @@ public abstract class Car {
 
     public String showcardetails() {
         return
-            "make='" + make + '\'' +
-                ", model='" + model + '\'' +
-                ", year=" + year +
-                ", carType='" + carType + '\'' +
-                ", doorNumber=" + doorNumber +
-                ", color='" + color + '\'' +
-                ", transmissionType='" + transmissionType + '\'' +
-                ", basePrice='" + basePrice + '\'' +
-                ", priceNew='" + priceNew + '\'' +
-                ", engine={fuelType " + engine.fuelType + ", consumption" + engine.consumption + " ,horsePower = "
-                + engine.horsePower + " kwPower " + engine.kwPower +
-                '}';
+            "make|model|year|carType|doorNumber|color|trans|basePrice|priceNew|fuel|consumption|horsePower|kwPower\n"
+                + make + "|" + model + "|" + year + "|" +carType + "|" +doorNumber + "|" +color + "|" +transmissionType + "|" +basePrice
+        +"|" + priceNew + "|" +engine.fuelType + "|" +engine.consumption + "|" +engine.horsePower +"|" +engine.kwPower
+            ;
     }
 }
