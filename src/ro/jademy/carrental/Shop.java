@@ -2,12 +2,13 @@ package ro.jademy.carrental;
 
 import ro.jademy.carrental.Car.BMW;
 import ro.jademy.carrental.Car.Car;
+import ro.jademy.carrental.Car.Compare.MakeComparator;
+import ro.jademy.carrental.Car.Compare.ModelComparator;
 import ro.jademy.carrental.Car.Engine;
 import ro.jademy.carrental.Car.Mercedes;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Shop {
     // Q: what fields and methods should this class contain?
@@ -37,6 +38,10 @@ public class Shop {
         cars.add(
             new Mercedes("Mercedes", "S", 2016, "Saloon", 3, "Black", "Aut", new BigDecimal(80), new BigDecimal(90000),
                 new Engine(250, 200, 10, "Petrol"), true, true));
+        cars.add(
+            new Mercedes("Audi", "4", 2016, "Saloon", 3, "Red", "Aut", new BigDecimal(80), new BigDecimal(90000),
+                new Engine(250, 200, 10, "Petrol"), true, true));
+
     }
 
 
@@ -116,7 +121,6 @@ public class Shop {
         System.out.println("1. Filter by make");
         System.out.println("2. Filter by model");
         System.out.println("3. Filter by budget");
-        // TODO: add additional filter methods based on car specs
         System.out.println("4. Back to previous menu");
 
         int choiceOption = sc.nextInt();
@@ -147,8 +151,23 @@ public class Shop {
     }
 
     public void showAllCars() {
+
+        System.out.println("1. Sort by Rule");
+        System.out.println("2. Sort by Make");
+        System.out.println("3. Sort by Model");
+        int sortBy = sc.nextInt();
+        switch (sortBy) {
+            case 1: {
+                Collections.sort(cars);
+            }
+            case 2: {
+                Collections.sort(cars, new MakeComparator());
+            }
+            case 3:{
+                Collections.sort(cars, new ModelComparator());
+            }
+        }
         showCars(cars);
-        chooseCar();
     }
 
     public void showCarsbyMake() {

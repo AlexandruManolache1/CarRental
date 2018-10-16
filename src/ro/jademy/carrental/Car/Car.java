@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 
-public abstract class Car {
+public abstract class Car implements Comparable<Car> {
 
     // Q: how can we better represent the car make?
     public String make;
@@ -122,8 +122,33 @@ public abstract class Car {
     public String showcardetails() {
         return
             "make|model|year|carType|doorNumber|color|trans|basePrice|priceNew|fuel|consumption|horsePower|kwPower\n"
-                + make + "|" + model + "|" + year + "|" +carType + "|" +doorNumber + "|" +color + "|" +transmissionType + "|" +basePrice
-        +"|" + priceNew + "|" +engine.fuelType + "|" +engine.consumption + "|" +engine.horsePower +"|" +engine.kwPower
+                + make + "|" + model + "|" + year + "|" + carType + "|" + doorNumber + "|" + color + "|"
+                + transmissionType + "|" + basePrice
+                + "|" + priceNew + "|" + engine.fuelType + "|" + engine.consumption + "|" + engine.horsePower + "|"
+                + engine.kwPower
             ;
     }
+
+    @Override
+    public int compareTo(Car o) {
+        int makeCompare = this.make.compareTo(o.make);
+        if (makeCompare == 0) {
+            int basePriceCompare = this.basePrice.compareTo(o.basePrice);
+            if (basePriceCompare == 0) {
+                int doorNumberCompare = this.doorNumber.compareTo(o.doorNumber);
+                if (doorNumberCompare == 0) {
+                    return 0;
+                }
+                return doorNumberCompare;
+            }
+            return basePriceCompare;
+        }
+        return makeCompare;
+    }
 }
+
+
+
+
+
+
